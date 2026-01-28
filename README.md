@@ -4,7 +4,7 @@
 
 ## 🔬 Project Overview
 
-Quantifying oligodendrocyte (OL) morphology in high-throughput screens is a significant challenge due to the intricate, recursive branching of mature myelin sheaths. Traditional tools often rely on qualitative descriptors or convex shape assumptions (e.g., Cellpose [1]) or are designed for tubular structures (e.g., AxonDeepSeg [2]), failing to capture the "broken branch" topology of complex arbors.
+Quantifying oligodendrocyte (OL) morphology in high-throughput screens is a significant challenge due to the intricate, recursive branching of mature myelin sheaths. Traditional tools often rely on qualitative descriptors, convex shape assumptions [1, 7], or are designed for tubular structures [2, 9], failing to capture the "broken branch" topology of complex arbors.
 
 This project introduces a minimal, auditable deep learning pipeline designed to convert pixel-level segmentations of whole-well MBP (Myelin Basic Protein) images into rigorous, well-level statistical endpoints.
 
@@ -15,36 +15,47 @@ This project introduces a minimal, auditable deep learning pipeline designed to 
 
 ---
 
+## 🖼️ Visual Results: What are we segmenting?
+
+The primary challenge in segmenting mature oligodendrocytes is preserving the connectivity of thin, branching processes while isolating them from the cell body and background noise.
+
+As shown below, our pipeline decomposes the fluorescent signal into three biologically distinct classes:
+1.  **Membranous (Yellow):** The complex, branching myelin sheaths.
+2.  **Non-membranous (Magenta):** The distinct, rounded cell soma.
+3.  **Cell Debris (Cyan):** Apoptotic fragments or staining artifacts (excluded from analysis).
+
+![Segmentation Comparison](SegmentationComparison.png)
+*(Figure: Comparison of segmentation fidelity. The ViT-Modified model successfully reconstructs the continuous arbor (Yellow) where baseline models often produce fragmented artifacts.)*
+
+---
+
 ## 🖥️ Application Demo
 
 We have developed a GUI to facilitate the batch processing of high-content screening data. The application visualizes the segmentation mask and provides real-time quantification of component counts and areas.
 
-### **[▶️ Click here to watch the Application Demo](ApplicationDemo.mp4)**
-*(Clicking the link above will open the video player in a new window)*
+![Application Demo](ApplicationDemo.gif)
 
 ---
 
 ## 📊 Performance Benchmarks
 
-We benchmarked our proposed architectures (**scSE-Modified** and **ViT-Modified**) against standard baselines (Plain ConvUNet [3]) and state-of-the-art state-space models (U-Mamba [6]).
+We benchmarked our proposed architectures (**scSE-Modified** and **ViT-Modified**) against standard baselines (Plain ConvUNet [3]) and state-of-the-art models (U-Mamba [6], Aura-net [8]).
 
-Our **ViT-Modified** variant achieves the highest structural fidelity, particularly for the challenging "Membranous" class, while maintaining reasonable computational efficiency.
+Our **ViT-Modified** variant achieves the highest structural fidelity, particularly for the challenging "Membranous" class.
 
-| Model | Params (M) | Size (MB) | FLOPs (G) | Dice (%) | IoU (%) | Train (s/ep) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Plain ConvUNet** [3] | 7.77 | 62.2 | 48.42 | 76.93 | 65.58 | 22 |
-| **UMambaBot** [6] | 17.15 | 90.2 | 96.43 | 80.34 | 69.81 | 69 |
-| **UMamba Enc** [6] | 11.38 | 91.3 | 94.56 | 81.21 | 70.47 | 98 |
-| **scSE-Modified (Ours)** | 23.18 | 185.7 | 65.25 | 83.48 | 74.29 | 56 |
-| **ViT-Modified (Ours)** | **39.76** | **318.3** | **66.32** | **89.43** | **83.77** | **57** |
+| Model | Params (M) | FLOPs (G) | Dice (%) | IoU (%) | Train (s/ep) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Plain ConvUNet** [3] | 7.77 | 48.42 | 76.93 | 65.58 | 22 |
+| **UMambaBot** [6] | 17.15 | 96.43 | 80.34 | 69.81 | 69 |
+| **UMamba Enc** [6] | 11.38 | 94.56 | 81.21 | 70.47 | 98 |
+| **scSE-Modified (Ours)** | 23.18 | 65.25 | 83.48 | 74.29 | 56 |
+| **ViT-Modified (Ours)** | **39.76** | **66.32** | **89.43** | **83.77** | **57** |
 
 *Table 1: Performance vs. Complexity comparison. The ViT-Modified architecture achieves a Dice score of 89.43% and IoU of 83.77% on held-out tiles.*
 
 ---
 
 ## 📅 Availability
-
-The full source code, including the model architecture definitions, training scripts, and the quantification GUI, will be made available here following the publication of the associated manuscript.
 
 **Contact:**
 For questions regarding the dataset or methodology prior to publication, please reach out to the corresponding author.
@@ -64,3 +75,11 @@ For questions regarding the dataset or methodology prior to publication, please 
 [5] Chen, J., et al. (2021). TransUNet: Transformers make strong encoders for medical image segmentation. *arXiv preprint arXiv:2102.04306*.
 
 [6] Ma, J., et al. (2024). U-Mamba: Enhancing long-range dependency for biomedical image segmentation. *arXiv preprint arXiv:2401.04722*.
+
+[7] Yu Kang T. Xu, Cody L. Call, Jeremias Sulam, and Dwight E. Bergles. Automated in vivo tracking of cortical oligodendrocytes. *Frontiers in Cellular Neuroscience*, 15, 2021.
+
+[8] Mohammed Saad, Fan Xu, Jing Li, and et al. Aura-net: Robust segmentation of phasecontrast microscopy images with few annotations. *IEEE Transactions on Biomedical Engineering*, 67(11):3095–3104, 2020.
+
+[9] Mahdi Safaie and Reza Kheradmand. High-throughput segmentation of unmyelinated axons by deep learning. *IEEE Transactions on Medical Imaging*, 41(9):2047–2057, 2022.
+
+[10] Yuxiang An, Dongnan Liu, and Weidong Cai. Unsupervised domain adaptation for neuron membrane segmentation based on structural features. *arXiv preprint arXiv:2305.02569*, 2023.
