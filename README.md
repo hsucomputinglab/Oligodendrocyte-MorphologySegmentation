@@ -9,7 +9,7 @@ Quantifying oligodendrocyte (OL) morphology in high-throughput screens is a sign
 This project introduces a minimal, auditable deep learning pipeline designed to convert pixel-level segmentations of whole-well MBP (Myelin Basic Protein) images into rigorous, well-level statistical endpoints.
 
 **Key Capabilities:**
-* **Granular Segmentation:** Distinguishes between **Membranous (sheaths)**, **Non-membranous (soma)**, and **Cell Debris**.
+<!-- * **Granular Segmentation:** Distinguishes between **Membranous (sheaths)**, **Non-membranous (soma)**, and **Cell Debris**. -->
 * **Topology-Aware Architecture:** Utilizes a modified U-Net [3] backbone augmented with spatial-channel squeeze-excitation (scSE) [4] and a Vision Transformer (ViT) bottleneck [5] to preserve fine branching structures.
 * **Automated Quantification:** Aggregates object-level metrics to reveal biological maturation trends, specifically differentiating between sheath expansion and simple cell proliferation.
 
@@ -19,13 +19,14 @@ This project introduces a minimal, auditable deep learning pipeline designed to 
 
 The primary challenge in segmenting mature oligodendrocytes is preserving the connectivity of thin, branching processes while isolating them from the cell body and background noise.
 
-As shown below, our pipeline decomposes the fluorescent signal into three biologically distinct classes:
+<!-- As shown below, our pipeline decomposes the fluorescent signal into three biologically distinct classes:
 1.  **Membranous (Yellow):** The complex, branching myelin sheaths.
 2.  **Non-membranous (Magenta):** The distinct, rounded cell soma.
-3.  **Cell Debris (Cyan):** Apoptotic fragments or staining artifacts (excluded from analysis).
+3.  **Cell Debris (Cyan):** Apoptotic fragments or staining artifacts (excluded from analysis). -->
 
 ![Segmentation Comparison](SegmentationComparison.png)
-*(Figure: Comparison of segmentation fidelity. The ViT-Modified model successfully reconstructs the continuous arbor (Yellow) where baseline models often produce fragmented artifacts.)*
+*(Figure: Comparison of segmentation fidelity.)*
+<!-- *(Figure: Comparison of segmentation fidelity. The ViT-Modified model successfully reconstructs the continuous arbor (Yellow) where baseline models often produce fragmented artifacts.)* -->
 
 ---
 
